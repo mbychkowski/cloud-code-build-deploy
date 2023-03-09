@@ -1,0 +1,67 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: backend00
+  annotations:
+    about: This is a simple Python backend build with FastAPI
+  labels:
+    lang: python
+description: |
+  Delivery pipeline for CI CD appBakend (in python) and then
+  packaged via buildpacks.
+serialPipeline:
+  stages:
+  - targetId: dev
+    profiles: [dev]
+  - targetId: qa
+    profiles: [qa]
+  - targetId: prod
+    profiles: [prod]
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+  name: frontend00
+  annotations:
+    about: This is a sample React web frontend built Next.js for server side rendering
+  labels:
+    lang: javascript
+    framework: nextjs
+description: |
+    Delivery pipeline for CI/CD appFrontend (in javascript) and then
+    packaged via Docker.
+serialPipeline:
+ stages:
+  - targetId: dev
+    profiles: [dev]
+  - targetId: qa
+    profiles: [qa]
+  - targetId: prod
+    profiles: [prod]
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: dev
+description: 01 Development cluster (internal, autopush, integration tests)
+gke:
+  cluster: projects/vps-niantic-demo/locations/us-central1-c/clusters/gke-dev
+#  project/${PROJECT_ID}/locations/${CLUSTER_LOCATION}/clusters/${CLUSTER_NAME}
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: qa
+description: 02 QA cluster (more testing, load testing, mirrored traffic from prod)
+gke:
+  cluster: projects/vps-niantic-demo/locations/us-central1-c/clusters/gke-qa
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: prod
+description:  |
+  03 prod cluster (external, as stable as it can be).
+requireApproval: true
+gke:
+  cluster: projects/vps-niantic-demo/locations/us-central1-c/clusters/gke-prod

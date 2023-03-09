@@ -1,0 +1,85 @@
+steps:
+- id: 'repoBuildConfirmation'
+  name: 'alpine'
+  entrypoint: 'sh'
+  dir: /workspace
+  args:
+  - '-c'
+  - |
+      echo "***********************"
+      echo "$PROJECT_ID"
+      echo "$REPO_NAME"
+      echo "$BRANCH_NAME"
+      echo "$SHORT_SHA"
+      echo "$TAG_NAME"
+      echo "$LOCATION"
+      echo "***********************"
+
+- name: gcr.io/k8s-skaffold/skaffold:v2.0.5
+  id: skaffoldBuild
+  # waitFor:
+  # - PullCache
+  args:
+    - "skaffold"
+    - "build"
+    - "--file-output=/workspace/artifacts.json"
+    - "--default-repo=${LOCATION}-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPONAME"
+    # - "--cache-file=/workspace/cache"
+    - "--module=$_DEPLOY_PIPELINE"
+    - "--profile=dev"
+
+- id: 'gcloudDeployDev'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  dir: /workspace
+  waitFor:
+  - skaffoldBuild
+  args:
+  - '-c'
+  - |
+      gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
+        --delivery-pipeline="$_DEPLOY_PIPELINE" \
+        --build-artifacts=/workspace/artifacts.json \
+        --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
+        --skaffold-version="2.0" \
+        --region="${LOCATION}" &&
+        echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH" # /workspace/.cb.releasename
+
+- id: 'gcloudPromoteToQA'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  dir: /workspace
+  waitFor:
+  - gcloudTestDev
+  args:
+  - '-c'
+  - |
+      gcloud deploy releases promote --to-target "qa" \
+        --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
+        --region=$LOCATION \
+        --delivery-pipeline=$_DEPLOY_PIPELINE \
+        --quiet
+
+- id: 'gcloudPromoteToProd'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  dir: /workspace
+  waitFor:
+  - gcloudTestDev
+  args:
+  - '-c'
+  - |
+      gcloud deploy releases promote --to-target "prod" \
+        --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
+        --region=$LOCATION \
+        --delivery-pipeline=$_DEPLOY_PIPELINE \
+        --quiet
+
+options:
+  # This allows for missing ENV variables.
+  substitution_option: 'ALLOW_LOOSE'
+substitutions:
+  _ARTIFACT_REPONAME: demo
+  _RELEASE_FILE_PATH: /workspace/.cb.releasename
+  _TARGET_QA_COMPUTE_ZONE: us-central1-c
+  _TARGET_QA_CONTAINER_CLUSTER: gke-qa
