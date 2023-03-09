@@ -17,14 +17,11 @@ steps:
 
 - name: gcr.io/k8s-skaffold/skaffold:v2.0.5
   id: skaffoldBuild
-  # waitFor:
-  # - PullCache
   args:
     - "skaffold"
     - "build"
     - "--file-output=/workspace/artifacts.json"
     - "--default-repo=${LOCATION}-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
-    # - "--cache-file=/workspace/cache"
     - "--module=$_DEPLOY_PIPELINE"
 
 - id: 'gcloudDeployDev'
@@ -48,5 +45,5 @@ options:
   # This allows for missing ENV variables.
   substitution_option: 'ALLOW_LOOSE'
 substitutions:
-  _ARTIFACT_REPO_NAME: cicd    
+  _ARTIFACT_REPO_NAME: cicd
   _RELEASE_FILE_PATH: /workspace/.cb.releasename

@@ -26,25 +26,40 @@ enable-apis:
 enable-iam:
 	@sh ./scripts/enable-iam.sh
 
+# This is where local builds should go. Those not going through deployment
+# pipeline
+registry-dirty:
+	@gcloud artifacts repositories create ${ARTIFACT_REPO_NAME}-dirty \
+  	--repository-format=docker \
+  	--location=${REGION} \
+		--labels=env=local,status=dirty \
+  	--description="Docker cicd demo repository for local development"
+
 registry:
 	@gcloud artifacts repositories create ${ARTIFACT_REPO_NAME} \
   	--repository-format=docker \
   	--location=${REGION} \
-		--labels=env=demo \
+		--labels=env=demo,status=clean \
   	--description="Docker cicd demo repository"
 
 build-trigger-main:
 	@gcloud beta builds triggers create cloud-source-repositories \
 		--name="csr-branch-be00" \
+		--description="Trigger from CSR on main branch for apps/backend00" \
 		--region=${REGION} \
 		--repo=${CSR_REPO_NAME} \
 		--branch-pattern="^main$$" \
 		--build-config=cloudbuild.yaml \
-		--included-files="apps/backend00/**,cloudbuild.yaml,skaffold.yaml"
-		--substitutions=_ARTIFACT_REPONAME=${ARTIFACT_REPO_NAME}=_DEPLOY_RELEASE=backend00
+		--included-files="apps/backend00/**,cloudbuild.yaml,skaffold.yaml" \
+		--substitutions=_DEPLOY_PIPELINE=backend00
 
 build-trigger-tag:
 	@gcloud beta builds triggers create cloud-source-repositories \
+		--name="csr-tag-be00" \
+		--description="Trigger from CSR on version release for apps/backend00" \
+		--region=${REGION} \
 		--repo=${CSR_REPO_NAME} \
 		--tag-pattern=v* \
-		--build-config=cloudbuild.yaml
+		--build-config=cloudbuild.yaml \
+		--included-files="apps/backend00/**,cloudbuild.yaml,skaffold.yaml" \
+		--substitutions=_DEPLOY_PIPELINE=backend00

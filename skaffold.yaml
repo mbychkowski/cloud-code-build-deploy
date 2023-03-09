@@ -2,26 +2,21 @@ apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: app-demo
-profiles:
-- name: local
-  build:
-    tagPolicy:
-      gitCommit:
-        variant: CommitSha
-        prefix: dev-
-    googleCloudBuild:
-      projectId: vps-niantic-demo
-  manifests:
-    kustomize:
-      paths:
-      - .local
-  deploy:
-    kubectl:
-      flags:
-        disableValidation: true
-# manifests:
-#   rawYaml:
-# #  - backend/backend-rules.yaml
-#   - apps/backend00/k8s/backend.yaml
-# #  - frontend/frontend-rules.yaml
-#   - apps/frontend00/k8s/frontend.yaml
+build:
+  googleCloudBuild: {}
+  tagPolicy:
+    customTemplate:
+      template: "{{.ENV}}_{{.DATE}}"
+      components:
+      - name: ENV
+        envTemplate:
+            template: "dev"
+      - name: DATE
+        dateTime:
+          format: "2006-01-02_15-04-05.999_MST"
+          timezone: "Local"
+manifests:
+   rawYaml:
+      - apps/backend/backend00/k8s/deploy.yaml
+deploy:
+  kubectl: {}

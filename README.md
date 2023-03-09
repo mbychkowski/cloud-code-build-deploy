@@ -1,7 +1,5 @@
 # Local Developement Lifecycyl & CI/CD Demo
 
-* More detailed docs coming soon
-
 **Google Cloud**
 - Cloud Code
 - Cloud Build
@@ -17,7 +15,7 @@
 
 ## 00 - Initialize
 
-For demonstration purposes it is recommended to set this code up in a Cloud Source Repository in your project. Search "Source Repository" in cloud console and configure new one. Push this repository to that.
+For demonstration purposes it is recommended to set this code up in a [Cloud Source Repository](https://source.cloud.google.com/) in your Goolge Cloud project. Push this repository to that.
 
 **ENV Variables**
 
