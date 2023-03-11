@@ -1,0 +1,32 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: backend00
+build:
+  googleCloudBuild: {}
+  tagPolicy:
+    customTemplate:
+      template: "{{.ENV}}_{{.DATE}}"
+      components:
+      - name: ENV
+        envTemplate:
+            template: "dev"
+      - name: DATE
+        dateTime:
+          format: "2006-01-02_15-04-05.999_MST"
+          timezone: "Local"
+  artifacts:
+  - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+    context: .
+    kaniko:
+      dockerfile: Dockerfile
+      image: gcr.io/kaniko-project/executor
+      cache: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: local
+  manifests:
+    rawYaml:
+        - ./k8s/deploy.yaml
+  requiresAllActivations: false

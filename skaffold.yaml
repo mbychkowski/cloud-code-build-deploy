@@ -2,21 +2,8 @@ apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: app-demo
-build:
-  googleCloudBuild: {}
-  tagPolicy:
-    customTemplate:
-      template: "{{.ENV}}_{{.DATE}}"
-      components:
-      - name: ENV
-        envTemplate:
-            template: "dev"
-      - name: DATE
-        dateTime:
-          format: "2006-01-02_15-04-05.999_MST"
-          timezone: "Local"
-manifests:
-   rawYaml:
-      - apps/backend/backend00/k8s/deploy.yaml
-deploy:
-  kubectl: {}
+requires:
+- configs: ["backend00"]
+  path: ./apps/backend00/skaffold.yaml
+  activeProfiles:
+  - name: local

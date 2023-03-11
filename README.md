@@ -1,5 +1,8 @@
 # Local Developement Lifecycyl & CI/CD Demo
 
+This repository touches on the following services from Google Cloud and Open
+Source.
+
 **Google Cloud**
 - Cloud Code
 - Cloud Build
@@ -13,9 +16,16 @@
 - Kustomize
 - Helm (TODO)
 
+>This is not an officially supported Google repository.  All code and assets
+>provided in this repo are made available on an as-is basis and the end user is
+>responsible for all of their own security, scaling, and cost control as part of
+>this deployment.
+
 ## 00 - Initialize
 
-For demonstration purposes it is recommended to set this code up in a [Cloud Source Repository](https://source.cloud.google.com/) in your Goolge Cloud project. Push this repository to that.
+For demonstration purposes it is recommended to set this code up in a
+[Cloud Source Repository](https://source.cloud.google.com/) in your Goolge Cloud
+project. Push this repository to that.
 
 **ENV Variables**
 
@@ -45,62 +55,75 @@ And source environment variables to be available for Makefile and else where
 make source-env
 ```
 
-If running into trouble with IAM issues or APIs not enabled run the following commands:
+If running into trouble with IAM issues or APIs not enabled run the following
+commands:
 
 ```
 make enable-apis
 make enable-iams
 ```
 
-At any point you can also check out the Makefile directly to run the commands without Make.
+At any point you can also check out the Makefile directly to run the commands
+without Make.
 
 ## 01 - Create Artifact Registry
 
-Create the Artifact Registry with `Makefile`:
+We will create a "dirty" Artifact Registry and a "clean" registry. The "dirty"
+registry will be for all of our local builds and development and the "clean"
+registry will be for anything pushed to the deployment pipeline.
+
+Create the dirty Artifact Registry with `Makefile`:
+
+```
+make registry-drity
+```
+
+and clean registry:
 
 ```
 make registry
 ```
 
-or straight `gcloud` command:
+Verify successful creation:
 
 ```
-gcloud artifacts repositories create $ARTIFACT_REPO_NAME \
-  --repository-format=docker \
-  --location=us-central1 \
-  --description="Docker cicd demo repository"
+gcloud artifacts repositories list
 ```
+
+Output should include our new registries: `$ARTIFACT_REPO_NAME` and
+`$ARTIFACT_REPO_NAME-dirty`.
+
+The "dirty" registry will tag the images in the format
+`dev_"2006-01-02_15-04-05.999_MST"` that can be viewed in the `skaffol.yaml` in
+`apps/backend00/skaffold.yaml` directory.
 
 ## 02 - Cloud Build triggers
 
-```
-e.g.
-be-py | backend00  | "backend/**,*.yaml"  |
-fe-js | frontend00 | "frontend/**,*.yaml" |
-
-APP_ID="be-py"
-APP_NAME="backend00"
-APP_SUBFOLDER="backend/**,*.yaml"
-SUBSTITUTIONS=_DEPLOY_UNIT=$APP_NAME,_REGION=$REGION,_ARTIFACT_REPONAME=$ARTIFACT_REPONAME
-```
+Create the Cloud Build triggers for our backend app, `backend00`. To create
+trigger based on `push` to `Main` branch:
 
 ```
-AR_REGION=us-central1
-AR_PROJECT_ID=prj-zeld-deku
-AR_REPO_NAME=https://source.developers.google.com/p/prj-zeld-deku/r/devops-simple
-AR_IMAGE_NAME=backend00
-CODE_REPO_NAME=devops-simple
-CODE_BRANCH_NAME=main
-SUBSTITUTIONS=_IAMGE_TAG="'$(body.message.data.tag)',_ACTION_='$(body.message.data.action)'"
+make build-trigger-main
 ```
 
-Push image to Artifact Registry
+To create a trigger based on a release via a `tag` with the name `v*` run:
 
 ```
-gcloud builds submit --region=$AR_REGION --tag $AR_REGION-docker.pkg.dev/$AR_PROJECT_ID/$AR_REPO_NAME/$AR_IMAGE_NAME:latest .
+make build-trigger-tag
 ```
 
-## 02 - Cloud Deploy
+## 03 - Cloud Code
+
+Make sure you have [Cloud Code](https://cloud.google.com/code/docs/vscode/install)
+installed.
+
+Click on "Run on Kubernetes" and walk through the setup to connect your `dev`
+cluster and the "dirty" Artifact Registry. If using VSCode, this will create a
+`launch.json` file with the configs.
+
+![cloud code run on kubernetes](./docs/assets/cloud_code_start.png)
+
+## 04 - Cloud Deploy
 
 ```
 gcloud --project $PROJECT_ID deploy apply --file clouddeploy.yaml --region "$REGION"
