@@ -21,7 +21,7 @@ steps:
     - "skaffold"
     - "build"
     - "--file-output=/workspace/artifacts.json"
-    - "--default-repo=${LOCATION}-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
+    - "--default-repo=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
     - "--module=$_DEPLOY_PIPELINE"
 
 - id: 'gcloudDeployDev'
@@ -38,7 +38,7 @@ steps:
         --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
-        --region="${LOCATION}" &&
+        --region="$LOCATION" &&
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH" # /workspace/.cb.releasename
 
 options:

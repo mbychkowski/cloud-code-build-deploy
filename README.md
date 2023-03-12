@@ -36,23 +36,17 @@ export REGION=us-central1 # e.g. us-central1
 export ARTIFACT_REPO_NAME="cicd" # e.g. "cicd"
 export CSR_REPO_NAME="cicd-demo" # e.g. "cicd-demo"
 
-# CLUSTER 1 is DEV
-export CLUSTER_NAME1=gke-dev  # change as needed
-export ZONE1=us-central1-c    # change as needed
+export CLUSTER_DEV_NAME=gke-dev       # change as needed
+export CLUSTER_DEV_LOC=us-central1-c  # change as needed
 
-# CLUSTER 2 is QA
-export CLUSTER_NAME2=gke-qa   # change as needed
-export ZONE2=us-central1-c    # change as needed
-
-# CLUSTER 3 is PROD
-export CLUSTER_NAME3=gke-prod # change as needed
-export ZONE3=us-central1-c    # change as needed
+export CLUSTER_PROD_NAME=gke-qa       # change as needed
+export CLUSTER_PROD_LOC=us-central1-c # change as needed
 ```
 
 And source environment variables to be available for Makefile and else where
 
 ```
-make source-env
+. ./scripts/source-env.sh
 ```
 
 If running into trouble with IAM issues or APIs not enabled run the following
