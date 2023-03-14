@@ -71,7 +71,7 @@ steps:
   entrypoint: 'bash'
   dir: /workspace
   waitFor:
-  - skaffoldBuildRelease
+  - testsForDev
   args:
   - '-c'
   - |
