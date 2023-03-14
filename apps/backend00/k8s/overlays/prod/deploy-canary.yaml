@@ -31,13 +31,13 @@ spec:
           protocol: TCP
         readinessProbe:
           httpGet:
-            path: /health
-            port: http
+            path: /healthz
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
         livenessProbe:
           tcpSocket:
-            port: http
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
         resources:
