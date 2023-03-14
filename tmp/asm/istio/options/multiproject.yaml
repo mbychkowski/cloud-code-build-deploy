@@ -1,0 +1,11 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: asm-gcp-multiproject
+  meshConfig:
+    trustDomainAliases: # {"$ref":"#/definitions/io.k8s.cli.setters.anthos.servicemesh.trustDomainAliases"}
+    - "prj-zeld-deku.svc.id.goog"
+    - "prj-zeld-deku.hub.id.goog"
+  values:
+    global:
+      meshID: "proj-1072243555576" # {"$ref":"#/definitions/io.k8s.cli.substitutions.mesh-id"}

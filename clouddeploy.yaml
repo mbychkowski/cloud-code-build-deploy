@@ -30,4 +30,4 @@ metadata:
 description: 02 prod cluster (external, as stable as it can be).
 requireApproval: true
 gke:
-  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-qa
+  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-prod

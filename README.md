@@ -21,15 +21,19 @@ Source.
 >responsible for all of their own security, scaling, and cost control as part of
 >this deployment.
 
+## Prerequisites
+
+1. 2 gke clusters. One designated as `dev` and a second as `prod`
+2. asmcli downloaded and installed to view canary process. Installation
+instructions can be found [here](https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh-asmcli#download_the_installation_tool). Or
+run `make asm-install`
+
 ## 00 - Initialize
 
 For demonstration purposes it is recommended to set this code up in a
 [Cloud Source Repository](https://source.cloud.google.com/) in your Goolge Cloud
-project. Push this repository to that. CSR will be the source of the build
-triggers for this demo.
-
-It is also assumed for this demo, that you have 2 GKE clusters (one "dev" and
-one "prod" cluster)
+project. Push this repository to that git repo once setup. CSR will be the
+source of the build triggers for this demo.
 
 **ENV Variables**
 
@@ -43,7 +47,7 @@ export CSR_REPO_NAME="cicd-demo" # e.g. "cicd-demo"
 export CLUSTER_DEV_NAME=gke-dev       # change as needed
 export CLUSTER_DEV_LOC=us-central1-c  # change as needed
 
-export CLUSTER_PROD_NAME=gke-qa       # change as needed
+export CLUSTER_PROD_NAME=gke-prod     # change as needed
 export CLUSTER_PROD_LOC=us-central1-c # change as needed
 ```
 

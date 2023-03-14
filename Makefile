@@ -76,3 +76,18 @@ build-dirty-be00:
 
 deploy-pipeline:
 	@gcloud --project ${PROJECT_ID} deploy apply --file clouddeploy.yaml --region "${REGION}"
+
+asm-download:
+
+asm-install:
+	@curl https://storage.googleapis.com/csm-artifacts/asm/asmcli > asmcli
+	@chmod +x asmcli
+	@./asmcli install \
+  --project_id ${PROJECT_ID} \
+  --cluster_name ${CLUSTER_PROD_NAME} \
+  --cluster_location ${CLUSTER_PROD_LOC} \
+  --fleet_id ${PROJECT_ID} \
+  --output_dir ./tmp \
+  --enable_all \
+  --ca mesh_ca
+	@rm ./asmcli

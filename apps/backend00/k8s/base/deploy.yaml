@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend00
+  name: backend00
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend00
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: backend00
+    spec:
+      containers:
+      - name: be00
+        # image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        env:
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: backend00-config
+              key: ENV
+        - name: VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: backend00-config
+              key: VERSION
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend00
+  name: backend00
+spec:
+  ports:
+  - port: 80
+    name: http
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: backend00
+  type: ClusterIP

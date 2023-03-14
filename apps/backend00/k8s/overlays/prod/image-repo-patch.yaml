@@ -1,0 +1,3 @@
+- value: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+  path: /spec/template/spec/containers/0/image
+  op: replace

@@ -28,5 +28,5 @@ profiles:
 - name: local
   manifests:
     rawYaml:
-        - ./k8s/deploy.yaml
+    - ./k8s/deploy.yaml
   requiresAllActivations: false
