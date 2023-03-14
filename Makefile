@@ -15,7 +15,7 @@ source-env:
 	@sh ./scripts/source-env.sh
 
 enable-apis:
-	@gcloud --project ${PROJECT_ID} services enable \
+	@gcloud --project prj-zeld-deku services enable \
 		artifactregistry.googleapis.com \
 		cloudbuild.googleapis.com \
 		clouddeploy.googleapis.com \
@@ -66,10 +66,13 @@ build-trigger-tag:
 
 build-be00:
 	@gcloud builds submit --region=${REGION} \
-		--tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00:latest \
+		--tag ${REGION}-docker.pkg.dev/prj-zeld-deku/${ARTIFACT_REPO_NAME}/be00:latest \
 		./apps/backend00
 
 build-dirty-be00:
 	@gcloud builds submit --region=${REGION} \
-		--tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}-dirty/be00:latest \
+		--tag ${REGION}-docker.pkg.dev/prj-zeld-deku/${ARTIFACT_REPO_NAME}-dirty/be00:latest \
 		./apps/backend00
+
+deploy-pipeline:
+	@gcloud --project ${PROJECT_ID} deploy apply --file clouddeploy.yaml --region "${REGION}"

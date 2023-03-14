@@ -25,11 +25,15 @@ Source.
 
 For demonstration purposes it is recommended to set this code up in a
 [Cloud Source Repository](https://source.cloud.google.com/) in your Goolge Cloud
-project. Push this repository to that.
+project. Push this repository to that. CSR will be the source of the build
+triggers for this demo.
+
+It is also assumed for this demo, that you have 2 GKE clusters (one "dev" and
+one "prod" cluster)
 
 **ENV Variables**
 
-Define environment variables in terminal
+Define or source environment variables in terminal.
 
 ```
 export REGION=us-central1 # e.g. us-central1
@@ -43,21 +47,22 @@ export CLUSTER_PROD_NAME=gke-qa       # change as needed
 export CLUSTER_PROD_LOC=us-central1-c # change as needed
 ```
 
-And source environment variables to be available for Makefile and else where
+Run the following script to populate templated `.yaml` configs with your `.env`
+values.
 
 ```
-. ./scripts/source-env.sh
+sh ./scripts/source-env.sh
 ```
 
-If running into trouble with IAM issues or APIs not enabled run the following
-commands:
+If at anytime you're running into trouble with IAM issues or APIs not enabled
+run the following commands:
 
 ```
 make enable-apis
 make enable-iams
 ```
 
-At any point you can also check out the Makefile directly to run the commands
+You can also check out the `Makefile` in the root directly to run the commands
 without Make.
 
 ## 01 - Create Artifact Registry
@@ -106,19 +111,26 @@ To create a trigger based on a release via a `tag` with the name `v*` run:
 make build-trigger-tag
 ```
 
+View triggers in the [console](https://console.cloud.google.com/cloud-build/triggers;region=us-central1). Make sure you are on the correct region.
+
 ## 03 - Cloud Code
 
 Make sure you have [Cloud Code](https://cloud.google.com/code/docs/vscode/install)
-installed.
+installed in your IDE.
 
 Click on "Run on Kubernetes" and walk through the setup to connect your `dev`
 cluster and the "dirty" Artifact Registry. If using VSCode, this will create a
 `launch.json` file with the configs.
 
-![cloud code run on kubernetes](./docs/assets/cloud_code_start.png)
+![cloud code run on kubernetes](./docs/assets/cloud_code_start.png).
 
 ## 04 - Cloud Deploy
 
+Deploy Cloud Deploy pipeline:
+
 ```
-gcloud --project $PROJECT_ID deploy apply --file clouddeploy.yaml --region "$REGION"
+make deploy-pipeline
 ```
+
+View deploy pipeline on the [console](https://console.cloud.google.com/deploy/delivery-pipelines).
+

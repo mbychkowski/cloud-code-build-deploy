@@ -28,5 +28,21 @@ profiles:
 - name: local
   manifests:
     rawYaml:
-        - ./k8s/deploy.yaml
+    - ./k8s/dev/deploy.yaml
+  requiresAllActivations: false
+- name: dev
+  build:
+    tagPolicy:
+      gitCommit: {}
+  manifests:
+    rawYaml:
+    - ./k8s/dev/deploy.yaml
+  requiresAllActivations: false
+- name: prod
+  build:
+    tagPolicy:
+      gitCommit: {}
+  manifests:
+    rawYaml:
+    - ./k8s/prod/deploy.yaml
   requiresAllActivations: false
