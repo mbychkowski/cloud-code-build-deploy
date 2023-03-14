@@ -37,11 +37,6 @@ spec:
             configMapKeyRef:
               name: backend00-config
               key: ENV
-        - name: VERSION
-          valueFrom:
-            configMapKeyRef:
-              name: backend00-config
-              key: VERSION
         resources:
           requests:
             cpu: 100m

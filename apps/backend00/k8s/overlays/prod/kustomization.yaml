@@ -18,3 +18,7 @@ patches:
     kind: Service
     name: backend00
   path: patch-service.yaml
+- target:
+    kind: Deployment
+    name: backend00
+  path: image-repo-patch.yaml
