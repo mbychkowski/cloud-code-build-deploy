@@ -4,9 +4,3 @@ namespace: backend00-prod
 
 resources:
 - deploy.yaml
-
-patches:
-- target:
-    kind: Deployment
-    name: backend00
-  path: image-repo-patch.yaml

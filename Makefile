@@ -77,8 +77,6 @@ build-dirty-be00:
 deploy-pipeline:
 	@gcloud --project ${PROJECT_ID} deploy apply --file clouddeploy.yaml --region "${REGION}"
 
-asm-download:
-
 asm-install:
 	@curl https://storage.googleapis.com/csm-artifacts/asm/asmcli > asmcli
 	@chmod +x asmcli
