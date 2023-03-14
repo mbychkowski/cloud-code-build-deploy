@@ -1,8 +1,0 @@
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    global:
-      multiCluster:
-        # Provided to ensure a human readable name rather than a UUID.
-        clusterName: "cn-prj-zeld-deku-us-central1-c-gke-prod" # {"$ref":"#/definitions/io.k8s.cli.substitutions.cluster-name"}

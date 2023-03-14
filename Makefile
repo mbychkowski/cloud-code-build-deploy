@@ -91,3 +91,4 @@ asm-install:
   --enable_all \
   --ca mesh_ca
 	@rm ./asmcli
+	@rm -rf tmp
