@@ -46,7 +46,7 @@ steps:
   entrypoint: 'sh'
   dir: /workspace
   waitFor:
-  - gcloudDeployDev
+  - cloudDeployDev
   args:
   - '-c'
   - |
