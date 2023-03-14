@@ -57,7 +57,7 @@ profiles:
     tagPolicy:
       gitCommit: {}
     artifacts:
-    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirt/be00
+    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
       context: .
       docker:
         dockerfile: Dockerfile
