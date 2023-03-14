@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: backend00
-        # image: s-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+        image: be00
         imagePullPolicy: Always
         ports:
         - name: http

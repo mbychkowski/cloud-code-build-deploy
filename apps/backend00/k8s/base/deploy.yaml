@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: be00
-        # image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+        image: be00
         readinessProbe:
           httpGet:
             path: /healthz

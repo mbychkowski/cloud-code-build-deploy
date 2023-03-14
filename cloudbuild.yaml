@@ -21,7 +21,7 @@ steps:
     - "skaffold"
     - "build"
     - "--file-output=/workspace/artifacts.json"
-    - "--default-repo=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
+    # - "--default-repo=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
     - "--module=$_DEPLOY_PIPELINE"
 
 - id: 'gcloudDeployDev'
