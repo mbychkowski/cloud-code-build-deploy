@@ -55,17 +55,16 @@ steps:
       cat $_RELEASE_FILE_PATH
       echo "***********************"
 
-- name: gcr.io/k8s-skaffold/skaffold:v2.0.5
-  id: skaffoldBuildRelease
-  waitFor:
-  - testsForDev
-  args:
-    - 'skaffold'
-    - 'build'
-    - '--file-output=/workspace/artifacts.json'
-    - '--profile=prod'
-    - '--module=$_DEPLOY_PIPELINE'
-
+# - name: gcr.io/k8s-skaffold/skaffold:v2.0.5
+#   id: skaffoldBuildRelease
+#   waitFor:
+#   - testsForDev
+#   args:
+#     - 'skaffold'
+#     - 'build'
+#     - '--file-output=/workspace/artifacts.json'
+#     - '--profile=prod'
+#     - '--module=$_DEPLOY_PIPELINE'
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
