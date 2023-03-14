@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend00-canary
+  name: backend00
   labels:
     name: backend00
 spec:
