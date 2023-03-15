@@ -26,14 +26,13 @@ steps:
 
 - id: 'cloudDeployDev'
   name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
   dir: /workspace
   waitFor:
   - skaffoldBuild
   args:
   - '-c'
   - |
-      gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
+      deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
@@ -47,20 +46,14 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployDev
-  args:
-  - '-eEuo'
-  - 'pipefail'
-  - '-c'
-  - '-c'
-  - |-
-    sh ./scripts waitFor-deploy.sh "to-canary"
+  args: ['sh', './scripts/waitFor-deploy.sh', '"to-dev"']
 
 - id: 'testsForDev'
   name: 'alpine'
   entrypoint: 'sh'
   dir: /workspace
   waitFor:
-  - cloudDeployDev
+  - waitForDeployDev
   args:
   - '-c'
   - |
@@ -71,29 +64,35 @@ steps:
 
 - id: 'cloudDeployCanary'
   name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
   dir: /workspace
   waitFor:
   - testsForDev
   args:
   - '-c'
   - |
-      gcloud deploy releases promote --to-target "canary" \
+      deploy releases promote --to-target "canary" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \
         --quiet
 
-- id: 'cloudDeployProd'
-  name: gcr.io/cloud-builders/gcloud
+- id: 'waitForDeployCanary'
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: 'bash'
   dir: /workspace
   waitFor:
   - cloudDeployCanary
+  args: ['sh', './scripts/waitFor-deploy.sh', '"to-canary"']
+
+- id: 'cloudDeployProd'
+  name: gcr.io/cloud-builders/gcloud
+  dir: /workspace
+  waitFor:
+  - waitForDeployCanary
   args:
   - '-c'
   - |
-      gcloud deploy releases promote --to-target "prod" \
+      deploy releases promote --to-target "prod" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \

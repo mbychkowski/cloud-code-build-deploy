@@ -46,13 +46,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployDev
-  args:
-  - '-eEuo'
-  - 'pipefail'
-  - '-c'
-  - '-c'
-  - |-
-    sh ./scripts waitFor-deploy.sh "to-dev"
+  args: ['sh', './scripts/waitFor-deploy.sh', '"to-dev"']
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -88,13 +82,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployCanary
-  args:
-  - '-eEuo'
-  - 'pipefail'
-  - '-c'
-  - '-c'
-  - |-
-    sh ./scripts waitFor-deploy.sh "to-canary"
+  args: ['sh', './scripts/waitFor-deploy.sh', '"to-canary"']
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
