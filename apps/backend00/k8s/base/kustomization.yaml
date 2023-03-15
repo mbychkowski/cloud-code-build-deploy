@@ -1,12 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: backend00-prod
 
 resources:
 - deploy.yaml
-
-patches:
-- target:
-    kind: Deployment
-    name: backend00
-  path: image-repo-patch.yaml

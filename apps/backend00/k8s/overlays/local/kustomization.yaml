@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: backend00-local
+
+resources:
+- namespace.yaml
+- ../../base
+
+configMapGenerator:
+- name: backend00-config
+  literals:
+  - ENV=local
+
+patches:
+- target:
+    kind: Deployment
+    name: backend00
+  path: image-repo-local-patch.yaml
+

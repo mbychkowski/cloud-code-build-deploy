@@ -1,4 +1,4 @@
-# Local Developement Lifecycyl & CI/CD Demo
+# Local Developement Lifecycyle & CI/CD Demo
 
 This repository touches on the following services from Google Cloud and Open
 Source.

@@ -11,8 +11,10 @@ fi
 cp ./templates/.env .env
 cp ./templates/cloudbuild.yaml cloudbuild.yaml
 cp ./templates/clouddeploy.yaml clouddeploy.yaml
+
 cp ./apps/backend00/templates/skaffold.yaml apps/backend00/skaffold.yaml
-cp ./apps/backend00/templates/image-repo-patch.yaml apps/backend00/k8s/base/image-repo-patch.yaml
+cp ./apps/backend00/templates/image-repo-local-patch.yaml apps/backend00/k8s/overlays/local/image-repo-local-patch.yaml
+cp ./apps/backend00/templates/deploy.yaml apps/backend00/k8s/base/deploy.yaml
 
 PROJECT_ID=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
 

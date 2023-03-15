@@ -14,7 +14,7 @@ profiles:
         components:
         - name: ENV
           envTemplate:
-              template: "dev"
+            template: "dev"
         - name: DATE
           dateTime:
             format: "2006-01-02_15-04-05.999_MST"
@@ -29,7 +29,7 @@ profiles:
   manifests:
     kustomize:
       paths:
-      - ./k8s/overlays/dev
+      - ./k8s/overlays/local
   requiresAllActivations: false
 - name: dev
   build:

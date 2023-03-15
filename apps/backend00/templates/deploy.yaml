@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: be00
-        image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+        image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00
         readinessProbe:
           httpGet:
             path: /healthz

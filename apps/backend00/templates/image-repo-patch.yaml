@@ -1,3 +1,0 @@
-- value: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00
-  path: /spec/template/spec/containers/0/image
-  op: replace
