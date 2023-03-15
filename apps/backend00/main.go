@@ -14,13 +14,13 @@ func main() {
   r := gin.Default()
 	r.Use(cors.Default())
 
-	version := os.Getenv("VERSION")
+	version := os.Getenv("ENV")
 	if (version == "") {
 		version = "latest"
 	}
 
 	r.GET("/", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{"body": "hello, world! 🕵️‍♂️"})
+    c.JSON(http.StatusOK, gin.H{"body": "hello, world! 💂"})
   })
 
 	r.GET("/albums", album.GetAlbums)

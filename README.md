@@ -23,7 +23,9 @@ Source.
 
 ## Prerequisites
 
-1. 2 gke clusters. One designated as `dev` and a second as `prod`
+1. 2 gke clusters. One designated as `dev` and a second as `prod`. For `prod`
+cluster to run ASM/Istio a minimum size nodepool of 3 nodes using
+`e2-standard-4` sized nodes should be used [(ref)][https://cloud.google.com/service-mesh/docs/unified-install/anthos-service-mesh-prerequisites].
 2. asmcli downloaded and installed to view canary process. Installation
 instructions can be found [here](https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh-asmcli#download_the_installation_tool). Or
 run `make asm-install`
