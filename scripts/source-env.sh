@@ -8,7 +8,7 @@ if [[ -f cloud*.yaml ]]; then
   rm cloud*.yaml
 fi
 
-cp ./templates/.env .env
+cp ./templates/auto.env .env
 cp ./templates/cloudbuild.yaml cloudbuild.yaml
 cp ./templates/clouddeploy.yaml clouddeploy.yaml
 
@@ -32,6 +32,6 @@ while read line; do
       -exec sed -i 's\${'"$ENV_VAR"'}\'"${!ENV_VAR}"'\g' {} +
   fi
 
-done < ./templates/.env
+done < ./templates/auto.env
 
 echo "> Populated templated files with environment configs"

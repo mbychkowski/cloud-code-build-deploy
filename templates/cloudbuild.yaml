@@ -42,33 +42,18 @@ steps:
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
 - id: 'waitForDeployDev'
-  name: gcr.io/cloud-builders/gcloud
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: 'bash'
   dir: /workspace
   waitFor:
   - cloudDeployDev
   args:
+  - '-eEuo'
+  - 'pipefail'
   - '-c'
-  - |
-      _STATUS="PENDING"
-
-      echo "checking status: $_STATUS"
-      while [ "$_STATUS" != "SUCCEEDED" ]; do
-
-        _STATUS=$(gcloud deploy rollouts describe \
-          $_DEPLOY_PIPELINE-$SHORT_SHA-to-canary-0001 \
-          --delivery-pipeline $_DEPLOY_PIPELINE \
-          --release $_DEPLOY_PIPELINE-$SHORT_SHA \
-          --region $LOCATION \
-          --format "value(state)") || exit 0
-
-          if [[ "$_STATUS" == "FAILED" ]]; then
-            raise error "status: $_STATUS"
-            exit 0
-          fi
-      done
-
-      echo "status: $_STATUS"
+  - '-c'
+  - |-
+    sh ./scripts waitFor-deploy.sh "to-canary"
 
 - id: 'testsForDev'
   name: 'alpine'

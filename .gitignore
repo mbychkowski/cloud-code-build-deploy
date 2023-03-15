@@ -1,7 +1,7 @@
 .vscode
 .kpt-pipeline
 
-cloud*.yaml
-.env
+./cloud*.yaml
+./.env
 
 asmcli
