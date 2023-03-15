@@ -59,11 +59,16 @@ steps:
           $_DEPLOY_PIPELINE-$SHORT_SHA-to-canary-0001 \
           --delivery-pipeline $_DEPLOY_PIPELINE \
           --release $_DEPLOY_PIPELINE-$SHORT_SHA \
-          --format "value(state)")
+          --region $LOCATION \
+          --format "value(state)") || exit 0
 
+          if [[ "$_STATUS" == "FAILED" ]]; then
+            raise error "status: $_STATUS"
+            exit 0
+          fi
       done
 
-      echo "$_STATUS"
+      echo "status: $_STATUS"
 
 - id: 'testsForDev'
   name: 'alpine'
