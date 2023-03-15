@@ -30,7 +30,6 @@ steps:
   waitFor:
   - skaffoldBuild
   args:
-  - '-c'
   - |
       deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
@@ -68,7 +67,6 @@ steps:
   waitFor:
   - testsForDev
   args:
-  - '-c'
   - |
       deploy releases promote --to-target "canary" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
@@ -90,7 +88,6 @@ steps:
   waitFor:
   - waitForDeployCanary
   args:
-  - '-c'
   - |
       deploy releases promote --to-target "prod" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
