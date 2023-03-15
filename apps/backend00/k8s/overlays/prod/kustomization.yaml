@@ -11,9 +11,3 @@ configMapGenerator:
 - name: backend00-config
   literals:
   - ENV=prod
-
-patches:
-- target:
-    kind: Service
-    name: backend00
-  path: patch-service.yaml

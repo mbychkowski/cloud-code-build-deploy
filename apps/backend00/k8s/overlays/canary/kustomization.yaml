@@ -6,14 +6,9 @@ resources:
 - namespace.yaml
 - deploy-canary.yaml
 - dest-rules-canary.yaml
+- ../../svc.yaml
 
 configMapGenerator:
 - name: backend00-config
   literals:
   - ENV=canary
-
-patches:
-- target:
-    kind: Service
-    name: backend00
-  path: patch-service.yaml

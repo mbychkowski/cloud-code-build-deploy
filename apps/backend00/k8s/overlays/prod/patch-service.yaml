@@ -1,4 +1,0 @@
-- value: LoadBalancer
-  path: /spec/type
-  op: replace
-
