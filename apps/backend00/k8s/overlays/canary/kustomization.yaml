@@ -6,7 +6,7 @@ resources:
 - namespace.yaml
 - deploy-canary.yaml
 - dest-rules-canary.yaml
-- ../../service.yaml
+- ../../base/service.yaml
 
 configMapGenerator:
 - name: backend00-config
