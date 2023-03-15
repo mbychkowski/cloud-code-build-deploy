@@ -46,6 +46,21 @@ profiles:
       paths:
       - ./k8s/overlays/dev
   requiresAllActivations: false
+- name: canary
+  build:
+    googleCloudBuild: {}
+    tagPolicy:
+      gitCommit: {}
+    artifacts:
+    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+      context: .
+      docker:
+        dockerfile: Dockerfile
+  manifests:
+    kustomize:
+      paths:
+      - ./k8s/overlays/canary
+  requiresAllActivations: false
 - name: prod
   build:
     googleCloudBuild: {}

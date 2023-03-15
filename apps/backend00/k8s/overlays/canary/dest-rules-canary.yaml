@@ -30,11 +30,11 @@ spec:
     - destination:
         host: backend00.backend00-prod.svc.cluster.local
         subset: prod
-      weight: 100
+      weight: 90
     - destination:
         host: backend00.backend00-prod.svc.cluster.local
         subset: canary
-      weight: 0
+      weight: 10
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule

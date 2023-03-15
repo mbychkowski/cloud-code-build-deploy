@@ -4,13 +4,13 @@ namespace: backend00-prod
 
 resources:
 - namespace.yaml
-- ../../base
+- deploy-canary.yaml
 - dest-rules-canary.yaml
 
 configMapGenerator:
 - name: backend00-config
   literals:
-  - ENV=prod
+  - ENV=canary
 
 patches:
 - target:
