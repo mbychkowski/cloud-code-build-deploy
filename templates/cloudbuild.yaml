@@ -47,7 +47,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployDev
-  args: ['scripts/waitFor-deploy.sh', '"to-dev"']
+  args: ['scripts/waitfor-deploy.sh', '"to-dev"']
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -84,7 +84,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployCanary
-  args: ['scripts/waitFor-deploy.sh', '"to-canary"']
+  args: ['scripts/waitfor-deploy.sh', '"to-canary"']
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
