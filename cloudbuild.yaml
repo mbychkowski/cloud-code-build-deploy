@@ -42,7 +42,7 @@ steps:
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
 - id: 'waitForDeployDev'
-  name: gcr.io/cloud-builders/gcloud
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: 'bash'
   dir: /workspace
   waitFor:
@@ -52,8 +52,7 @@ steps:
   - 'pipefail'
   - '-c'
   - |-
-    #!/bin/bash
-    _STATUS="PENDING"
+    export _STATUS="PENDING"
     echo "checking status: $_STATUS"
     while [ "$_STATUS" != "SUCCEEDED" ]; do
       _STATUS=$(gcloud deploy rollouts describe \
@@ -64,7 +63,6 @@ steps:
         --format "value(state)")
       if [[ "$_STATUS" == "FAILED" ]]; then
         raise error "status: $_STATUS"
-        exit 0
       fi
     done
     echo "status: $_STATUS"
