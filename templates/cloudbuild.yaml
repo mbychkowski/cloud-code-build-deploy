@@ -26,13 +26,14 @@ steps:
 
 - id: 'cloudDeployDev'
   name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
   dir: /workspace
   waitFor:
   - skaffoldBuild
   args:
   - '-c'
   - |
-      deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
+      gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
@@ -46,7 +47,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployDev
-  args: ['sh', './scripts/waitFor-deploy.sh', '"to-dev"']
+  args: ['scripts/waitFor-deploy.sh', '"to-dev"']
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -64,13 +65,14 @@ steps:
 
 - id: 'cloudDeployCanary'
   name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
   dir: /workspace
   waitFor:
   - testsForDev
   args:
   - '-c'
   - |
-      deploy releases promote --to-target "canary" \
+      gcloud deploy releases promote --to-target "canary" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \
@@ -82,17 +84,18 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployCanary
-  args: ['sh', './scripts/waitFor-deploy.sh', '"to-canary"']
+  args: ['scripts/waitFor-deploy.sh', '"to-canary"']
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
   dir: /workspace
   waitFor:
   - waitForDeployCanary
   args:
   - '-c'
   - |
-      deploy releases promote --to-target "prod" \
+      gcloud deploy releases promote --to-target "prod" \
         --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \

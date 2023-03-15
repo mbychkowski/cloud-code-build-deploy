@@ -47,7 +47,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployDev
-  args: ['sh', './scripts/waitFor-deploy.sh', '"to-dev"']
+  args: ['scripts/waitFor-deploy.sh', '"to-dev"']
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -84,7 +84,7 @@ steps:
   dir: /workspace
   waitFor:
   - cloudDeployCanary
-  args: ['sh', './scripts/waitFor-deploy.sh', '"to-canary"']
+  args: ['scripts/waitFor-deploy.sh', '"to-canary"']
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
@@ -105,5 +105,5 @@ options:
   # This allows for missing ENV variables.
   substitution_option: 'ALLOW_LOOSE'
 substitutions:
-  _ARTIFACT_REPO_NAME: ${ARTIFACT_REPO_NAME}
+  _ARTIFACT_REPO_NAME: cicd
   _RELEASE_FILE_PATH: /workspace/.cb.releasename
