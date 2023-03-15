@@ -41,6 +41,30 @@ steps:
         --region="$LOCATION" &&
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
+- id: 'waitForDeployDev'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  dir: /workspace
+  waitFor:
+  - cloudDeployDev
+  args:
+  - '-c'
+  - |
+      STATUS="PENDING"
+
+      echo "checking status: $STATUS"
+      while [ "$STATUS" != "SUCCEEDED" ]; do
+
+        status=$(gcloud deploy rollouts describe \
+          $_DEPLOY_PIPELINE-$SHORT_SHA-to-canary-0001 \
+          --delivery-pipeline $_DEPLOY_PIPELINE \
+          --release $_DEPLOY_PIPELINE-$SHORT_SHA \
+          --format "value(state)")
+
+      done
+
+      echo ${status}
+
 - id: 'testsForDev'
   name: 'alpine'
   entrypoint: 'sh'

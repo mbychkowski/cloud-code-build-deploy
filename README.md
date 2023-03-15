@@ -44,7 +44,7 @@ Define or source environment variables in terminal.
 ```
 export REGION=us-central1 # e.g. us-central1
 export ARTIFACT_REPO_NAME="cicd" # e.g. "cicd"
-export CSR_REPO_NAME="cicd-demo" # e.g. "cicd-demo"
+export CSR_REPO_NAME="cicd-demo" # e.g. "cicd-simple"
 
 export CLUSTER_DEV_NAME=gke-dev       # change as needed
 export CLUSTER_DEV_LOC=us-central1-c  # change as needed

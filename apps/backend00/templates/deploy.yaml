@@ -16,6 +16,7 @@ spec:
       creationTimestamp: null
       labels:
         app: backend00
+        version: stable
     spec:
       containers:
       - name: be00
