@@ -81,12 +81,18 @@ asm-install:
 	@curl https://storage.googleapis.com/csm-artifacts/asm/asmcli > asmcli
 	@chmod +x asmcli
 	@./asmcli install \
-  --project_id ${PROJECT_ID} \
-  --cluster_name ${CLUSTER_PROD_NAME} \
-  --cluster_location ${CLUSTER_PROD_LOC} \
-  --fleet_id ${PROJECT_ID} \
-  --output_dir ./tmp \
-  --enable_all \
-  --ca mesh_ca
+  	--project_id ${PROJECT_ID} \
+  	--cluster_name ${CLUSTER_PROD_NAME} \
+  	--cluster_location ${CLUSTER_PROD_LOC} \
+  	--fleet_id ${PROJECT_ID} \
+		--managed \
+		--channel stable \
+  	--output_dir ./tmp \
+  	--enable_all \
+  	--ca mesh_ca
+	@kubectl label namespace istio-system \
+		istio-injection=enabled istio.io/rev=asm-managed-stable \
+		--overwrite
+	@kubectl apply -n istio-system -f tmp/samples/gateways/istio-ingressgateway
 	@rm ./asmcli
 	@rm -rf tmp
