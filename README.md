@@ -23,12 +23,11 @@ Source.
 
 ## Prerequisites
 
-1. 2 gke clusters. One designated as `dev` and a second as `prod`. For `prod`
-cluster to run ASM/Istio a minimum size nodepool of 3 nodes using
-`e2-standard-4` sized nodes should be used [(ref)][https://cloud.google.com/service-mesh/docs/unified-install/anthos-service-mesh-prerequisites].
-2. asmcli downloaded and installed to view canary process. Installation
-instructions can be found [here](https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh-asmcli#download_the_installation_tool). Or
-run `make asm-install`
+1. 2 gke clusters. One designated as `dev` and a second as `prod`. For `prod` to
+have canary releases install ASM on `prod` cluster. Instruction [here](https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh) with
+Fleet API
+
+WIP simple install run `make asm-install` for an all in one command line.
 
 ## 00 - Initialize
 
@@ -42,9 +41,9 @@ source of the build triggers for this demo.
 Define or source environment variables in terminal.
 
 ```
-export REGION=us-central1 # e.g. us-central1
-export ARTIFACT_REPO_NAME="cicd" # e.g. "cicd"
-export CSR_REPO_NAME="cicd-demo" # e.g. "cicd-simple"
+export REGION=us-central1             # e.g. us-central1
+export ARTIFACT_REPO_NAME="cicd"      # e.g. "cicd"
+export CSR_REPO_NAME="cicd-demo"      # e.g. "cicd-simple"
 
 export CLUSTER_DEV_NAME=gke-dev       # change as needed
 export CLUSTER_DEV_LOC=us-central1-c  # change as needed
@@ -65,7 +64,7 @@ run the following commands:
 
 ```
 make enable-apis
-make enable-iams
+make enable-iam
 ```
 
 You can also check out the `Makefile` in the root directly to run the commands
@@ -80,7 +79,7 @@ registry will be for anything pushed to the deployment pipeline.
 Create the dirty Artifact Registry with `Makefile`:
 
 ```
-make registry-drity
+make registry-dirty
 ```
 
 and clean registry:
@@ -139,4 +138,8 @@ make deploy-pipeline
 ```
 
 View deploy pipeline on the [console](https://console.cloud.google.com/deploy/delivery-pipelines).
+
+## 05 - Push code to Cloud Source Repository
+
+
 

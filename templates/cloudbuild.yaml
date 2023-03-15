@@ -41,13 +41,17 @@ steps:
         --region="$LOCATION" &&
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
-- id: 'waitForDeployDev'
-  name: gcr.io/google.com/cloudsdktool/cloud-sdk
-  entrypoint: 'bash'
-  dir: /workspace
-  waitFor:
-  - cloudDeployDev
-  args: ['scripts/waitfor-deploy.sh', '"to-dev"']
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'waitForDeployDev'
+  args:
+  - --namespace=${_DEPLOY_PIPELINE}-dev
+  - rollout
+  - status
+  - deployment
+  - ${_DEPLOY_PIPELINE}
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_DEV_LOC}'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_DEV_NAME}'
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -59,7 +63,7 @@ steps:
   - '-c'
   - |
       echo "***********************"
-      echo "Tests would go here"
+      echo "Tests could go here"
       cat $_RELEASE_FILE_PATH
       echo "***********************"
 
@@ -78,13 +82,17 @@ steps:
         --delivery-pipeline=$_DEPLOY_PIPELINE \
         --quiet
 
-- id: 'waitForDeployCanary'
-  name: gcr.io/google.com/cloudsdktool/cloud-sdk
-  entrypoint: 'bash'
-  dir: /workspace
-  waitFor:
-  - cloudDeployCanary
-  args: ['scripts/waitfor-deploy.sh', '"to-canary"']
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: 'waitForDeployCanary'
+  args:
+  - --namespace=${_DEPLOY_PIPELINE}-prod
+  - rollout
+  - status
+  - deployment
+  - ${_DEPLOY_PIPELINE}-canary
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_PROD_LOC}'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_PROD_NAME}'
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud

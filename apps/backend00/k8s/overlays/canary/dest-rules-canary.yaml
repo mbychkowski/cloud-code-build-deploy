@@ -11,7 +11,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "backend00.backend00-prod.svc.cluster.local"
+    - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -19,7 +19,7 @@ metadata:
   name: backend00-vs
 spec:
   hosts:
-  - "backend00.backend00-prod.svc.cluster.local"
+  - "*"
   gateways:
   - backend00-gw
   http:
