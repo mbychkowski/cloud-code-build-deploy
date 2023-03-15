@@ -50,10 +50,10 @@ steps:
   args:
   - '-c'
   - |
-      STATUS="PENDING"
+      _STATUS="PENDING"
 
       echo "checking status: $STATUS"
-      while [ "$STATUS" != "SUCCEEDED" ]; do
+      while [ "$_STATUS" != "SUCCEEDED" ]; do
 
         status=$(gcloud deploy rollouts describe \
           $_DEPLOY_PIPELINE-$SHORT_SHA-to-canary-0001 \
@@ -63,7 +63,7 @@ steps:
 
       done
 
-      echo ${status}
+      echo "$_STATUS"
 
 - id: 'testsForDev'
   name: 'alpine'
