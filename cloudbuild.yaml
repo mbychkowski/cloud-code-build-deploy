@@ -60,7 +60,7 @@ steps:
           --delivery-pipeline $_DEPLOY_PIPELINE \
           --release $_DEPLOY_PIPELINE-$SHORT_SHA \
           --region $LOCATION \
-          --format "value(state)") || exit 0
+          --format "value(state)")
 
           if [[ "$_STATUS" == "FAILED" ]]; then
             raise error "status: $_STATUS"
