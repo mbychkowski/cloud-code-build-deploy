@@ -2,31 +2,62 @@ apiVersion: skaffold/v4beta1
 kind: Config
 metadata:
   name: backend00
-build:
-  googleCloudBuild: {}
-  tagPolicy:
-    customTemplate:
-      template: "{{.ENV}}_{{.DATE}}"
-      components:
-      - name: ENV
-        envTemplate:
-            template: "dev"
-      - name: DATE
-        dateTime:
-          format: "2006-01-02_15-04-05.999_MST"
-          timezone: "Local"
-  artifacts:
-  - image: us-central1-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}-dirty/be00
-    context: .
-    kaniko:
-      dockerfile: Dockerfile
-      image: gcr.io/kaniko-project/executor
-      cache: {}
 deploy:
   kubectl: {}
 profiles:
 - name: local
+  build:
+    googleCloudBuild: {}
+    tagPolicy:
+      customTemplate:
+        template: "{{.ENV}}_{{.DATE}}"
+        components:
+        - name: ENV
+          envTemplate:
+              template: "dev"
+        - name: DATE
+          dateTime:
+            format: "2006-01-02_15-04-05.999_MST"
+            timezone: "Local"
+    artifacts:
+    - image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}-dirty/be00
+      context: .
+      kaniko:
+        dockerfile: Dockerfile
+        image: gcr.io/kaniko-project/executor
+        cache: {}
   manifests:
-    rawYaml:
-    - ./k8s/deploy.yaml
+    kustomize:
+      paths:
+      - ./k8s/overlays/dev
+  requiresAllActivations: false
+- name: dev
+  build:
+    googleCloudBuild: {}
+    tagPolicy:
+      gitCommit: {}
+    artifacts:
+    - image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00
+      context: .
+      docker:
+        dockerfile: Dockerfile
+  manifests:
+    kustomize:
+      paths:
+      - ./k8s/overlays/dev
+  requiresAllActivations: false
+- name: prod
+  build:
+    googleCloudBuild: {}
+    tagPolicy:
+      gitCommit: {}
+    artifacts:
+    - image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00
+      context: .
+      docker:
+        dockerfile: Dockerfile
+  manifests:
+    kustomize:
+      paths:
+      - ./k8s/overlays/prod
   requiresAllActivations: false

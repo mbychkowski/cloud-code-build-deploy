@@ -18,13 +18,13 @@ steps:
 - name: gcr.io/k8s-skaffold/skaffold:v2.0.5
   id: skaffoldBuild
   args:
-    - 'skaffold'
-    - 'build'
-    - '--file-output=/workspace/artifacts.json'
-    - '--profile=dev'
-    - '--module=$_DEPLOY_PIPELINE'
+    - "skaffold"
+    - "build"
+    - "--file-output=/workspace/artifacts.json"
+    - "--default-repo=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME"
+    - "--module=$_DEPLOY_PIPELINE"
 
-- id: 'cloudDeployDev'
+- id: 'gcloudDeployDev'
   name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   dir: /workspace
@@ -39,47 +39,7 @@ steps:
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
         --region="$LOCATION" &&
-        echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
-
-- id: 'testsForDev'
-  name: 'alpine'
-  entrypoint: 'sh'
-  dir: /workspace
-  waitFor:
-  - cloudDeployDev
-  args:
-  - '-c'
-  - |
-      echo "***********************"
-      echo "Tests would go here"
-      cat $_RELEASE_FILE_PATH
-      echo "***********************"
-
-# - name: gcr.io/k8s-skaffold/skaffold:v2.0.5
-#   id: skaffoldBuildRelease
-#   waitFor:
-#   - testsForDev
-#   args:
-#     - 'skaffold'
-#     - 'build'
-#     - '--file-output=/workspace/artifacts.json'
-#     - '--profile=prod'
-#     - '--module=$_DEPLOY_PIPELINE'
-
-- id: 'cloudDeployProd'
-  name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
-  dir: /workspace
-  waitFor:
-  - testsForDev
-  args:
-  - '-c'
-  - |
-      gcloud deploy releases promote --to-target "prod" \
-        --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
-        --region=$LOCATION \
-        --delivery-pipeline=$_DEPLOY_PIPELINE \
-        --quiet
+        echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH" # /workspace/.cb.releasename
 
 options:
   # This allows for missing ENV variables.

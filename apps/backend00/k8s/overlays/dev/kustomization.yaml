@@ -10,9 +10,3 @@ configMapGenerator:
 - name: backend00-config
   literals:
   - ENV=dev
-
-patches:
-- target:
-    kind: Deployment
-    name: backend00
-  path: image-repo-patch.yaml
