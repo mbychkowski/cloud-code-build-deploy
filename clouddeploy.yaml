@@ -31,7 +31,7 @@ metadata:
   name: canary
 description: 02 canary to prod cluster (test release 90/10 to new release).
 gke:
-  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-prod
+  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-prod-asm
 
 ---
 apiVersion: deploy.cloud.google.com/v1
@@ -41,4 +41,4 @@ metadata:
 description: 03 prod cluster (external, as stable as it can be).
 requireApproval: true
 gke:
-  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-prod
+  cluster: projects/prj-zeld-deku/locations/us-central1-c/clusters/gke-prod-asm
