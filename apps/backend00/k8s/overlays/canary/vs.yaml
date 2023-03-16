@@ -15,8 +15,8 @@ spec:
     - destination:
         host: backend00.backend00-prod.svc.cluster.local
         subset: prod
-      weight: 50
+      weight: 90
     - destination:
         host: backend00.backend00-prod.svc.cluster.local
         subset: canary
-      weight: 50
+      weight: 10
