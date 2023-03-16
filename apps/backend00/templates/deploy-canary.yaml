@@ -1,34 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend00-canary
   labels:
-    name: backend00
+    app: backend00
+  name: backend00-canary
 spec:
-  replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  replicas: 1
   selector:
     matchLabels:
-      name: backend00
+      app: backend00
+  strategy: {}
   template:
     metadata:
       labels:
-        name: backend00
+        app: backend00
         version: canary
     spec:
-      restartPolicy: Always
       containers:
-      - name: backend00
+      - name: be00
         image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${ARTIFACT_REPO_NAME}/be00
-        imagePullPolicy: Always
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
         readinessProbe:
           httpGet:
             path: /healthz
@@ -40,6 +30,12 @@ spec:
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 5
+        env:
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: backend00-config
+              key: ENV
         resources:
           requests:
             cpu: 100m
