@@ -15,13 +15,14 @@ source-env:
 	@sh ./scripts/source-env.sh
 
 enable-apis:
-	@gcloud --project prj-zeld-deku services enable \
+	@gcloud --project ${PROJECT_ID} services enable \
 		artifactregistry.googleapis.com \
 		cloudbuild.googleapis.com \
 		clouddeploy.googleapis.com \
 		cloudresourcemanager.googleapis.com \
 		compute.googleapis.com \
-		container.googleapis.com
+		container.googleapis.com \
+		mesh.googleapis.com
 
 enable-iam:
 	@sh ./scripts/enable-iam.sh
@@ -63,6 +64,8 @@ build-trigger-tag:
 		--build-config=cloudbuild.yaml \
 		--included-files="apps/backend00/**,cloudbuild.yaml,skaffold.yaml" \
 		--substitutions=_DEPLOY_PIPELINE=backend00,_CLUSTER_DEV_LOC=${CLUSTER_DEV_LOC},_CLUSTER_DEV_NAME=${CLUSTER_DEV_NAME},_CLUSTER_PROD_LOC=${CLUSTER_PROD_LOC},_CLUSTER_PROD_NAME=${CLUSTER_PROD_NAME}
+
+# build-trigger-ar:
 
 build-be00:
 	@gcloud builds submit --region=${REGION} \
