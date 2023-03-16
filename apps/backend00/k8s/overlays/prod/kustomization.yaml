@@ -5,7 +5,7 @@ namespace: backend00-prod
 resources:
 - namespace.yaml
 - ../../base
-- dest-rules-canary.yaml
+- ../../istio
 
 configMapGenerator:
 - name: backend00-config

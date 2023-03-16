@@ -11,7 +11,21 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "backend00.backend00-prod.svc.cluster.local"
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: backend00-dr
+spec:
+  host: backend00.backend00-prod.svc.cluster.local
+  subsets:
+  - name: prod
+    labels:
+      version: stable
+  - name: canary
+    labels:
+      version: canary
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -35,17 +49,3 @@ spec:
         host: backend00.backend00-prod.svc.cluster.local
         subset: canary
       weight: 0
----
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: backend00-dr
-spec:
-  host: backend00.backend00-prod.svc.cluster.local
-  subsets:
-  - name: prod
-    labels:
-      version: stable
-  - name: canary
-    labels:
-      version: canary
