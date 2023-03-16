@@ -14,13 +14,14 @@ GCE_SA="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
 # 1. Add roles to normal Cloud Build service account
 for SUCCINCT_ROLE in \
     artifactregistry.repoAdmin \
-    container.developer \
-    iam.serviceAccountUser \
     cloudbuild.connectionAdmin \
+    cloudbuild.builds.builder \
     clouddeploy.jobRunner \
     clouddeploy.releaser \
+    container.developer \
+    iam.serviceAccountUser \
+    pubsub.subscriber \
     source.reader \
-    cloudbuild.builds.builder \
     storage.objectAdmin ; do
   gcloud projects add-iam-policy-binding --member="serviceAccount:${CLOUD_BUILD_SA}" --role "roles/$SUCCINCT_ROLE" "$PROJECT_ID"
 done

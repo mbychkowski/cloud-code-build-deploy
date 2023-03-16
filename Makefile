@@ -22,6 +22,9 @@ MAKEFLAGS += --no-builtin-rules
 # Source important environmental variables that need to be persisted and are easy to forget about
 -include .env
 
+show:
+	@echo '$(VAR)'
+
 authenticate:
 	@gcloud auth application-default login
 
@@ -79,7 +82,19 @@ build-trigger-tag:
 		--included-files="apps/backend00/**,cloudbuild.yaml,skaffold.yaml" \
 		--substitutions=_DEPLOY_PIPELINE=backend00,_CLUSTER_DEV_LOC=${CLUSTER_DEV_LOC},_CLUSTER_DEV_NAME=${CLUSTER_DEV_NAME},_CLUSTER_PROD_LOC=${CLUSTER_PROD_LOC},_CLUSTER_PROD_NAME=${CLUSTER_PROD_NAME}
 
-# build-trigger-ar:
+build-trigger-pubsub:
+	@gcloud pubsub topics create gcr --project=${PROJECT_ID}
+	@gcloud beta builds triggers create pubsub \
+		--name="ar-pubsub-be00" \
+		--description="Trigger from pub/sub Artifact Registry topic for apps/backend00" \
+		--region=${REGION} \
+		--topic=projects/${PROJECT_ID}/topics/gcr \
+		--repo-type="CLOUD_SOURCE_REPOSITORIES" \
+		--repo=${CSR_REPO_NAME} \
+		--branch=main \
+		--build-config=cloudbuild.yaml \
+		--subscription-filter='_ACTION.matches("INSERT")' \
+		--substitutions=_DEPLOY_PIPELINE=backend00,_CLUSTER_DEV_LOC=${CLUSTER_DEV_LOC},_CLUSTER_DEV_NAME=${CLUSTER_DEV_NAME},_CLUSTER_PROD_LOC=${CLUSTER_PROD_LOC},_CLUSTER_PROD_NAME=${CLUSTER_PROD_NAME},_IMAGE_TAG='$$(body.message.data.tag)',_ACTION='$$(body.message.data.action)'
 
 build-be00:
 	@gcloud builds submit --region=${REGION} \

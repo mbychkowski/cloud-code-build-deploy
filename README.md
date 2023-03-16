@@ -117,6 +117,14 @@ To create a trigger based on a release via a `tag` with the name `v*` run:
 make build-trigger-tag
 ```
 
+To create a trigger based on a pub/sub topic for Artifact Registry. This will
+trigger pipeline based off a new image tag from Artifact Registry. **Note
+`cloudbuild.yaml` not yet configured to run for this trigger**
+
+```
+make build-trigger-pubsub
+```
+
 View triggers in the [console](https://console.cloud.google.com/cloud-build/triggers;region=us-central1). Make sure you are on the correct region.
 
 ## 03 - Cloud Code
