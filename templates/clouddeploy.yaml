@@ -32,7 +32,6 @@ metadata:
 description: 02 canary to prod cluster (test release 90/10 to new release).
 gke:
   cluster: projects/${PROJECT_ID}/locations/${CLUSTER_PROD_LOC}/clusters/${CLUSTER_PROD_NAME}
-
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
