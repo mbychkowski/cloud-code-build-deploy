@@ -33,17 +33,19 @@ steps:
   name: gcr.io/cloud-builders/gcloud
   entrypoint: bash
   dir: /workspace
+  env:
+  - 'DATETIME=$(date +%F_%T)'
   args:
   - '-c'
   - |
-      gcloud deploy releases create "$_DEPLOY_PIPELINE-$_IMAGE_TAG"  \
+      gcloud deploy releases create "$_DEPLOY_PIPELINE-$DATETIME"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
+        --images=be00=$_IMAGE_TAG \
         --region="$LOCATION" &&
-        echo "$_DEPLOY_PIPELINE-$_IMAGE_TAG" > "$_RELEASE_FILE_PATH"
-# --images=be00=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME/be00:$_IMAGE_TAG \
+        echo "$_DEPLOY_PIPELINE-$DATETIME" > "$_RELEASE_FILE_PATH"
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'waitForDeployDev'
