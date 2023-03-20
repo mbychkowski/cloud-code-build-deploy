@@ -40,7 +40,6 @@ steps:
   - |
       gcloud deploy releases create "$_DEPLOY_PIPELINE-$_DATETIME"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
-        --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
         --images=be00=$_IMAGE_TAG \
