@@ -198,8 +198,8 @@ git push google v0.0.x
 
 ## 06 - The pipeline
 
-**Note this may fail the first time as we need to have an initial state**
-To avoid this we can setup a version 1 of our app in our `dev`and `prod`
+**Note:** this may fail the first time because we need to have an initial state
+To avoid this we can setup a "version 1" of our app in our `dev`and `prod`
 clusters.
 
 ```
@@ -225,7 +225,7 @@ new release.
 
 ```
 while true; do
-  curl -w "\n" <EXTERNAL-IP>/;
+  curl -w "\n" 35.225.223.9/;
 done
 ```
 
