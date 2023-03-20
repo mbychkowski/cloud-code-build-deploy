@@ -151,4 +151,4 @@ kustomize-app-init:
 	@kubectl --context gke_${PROJECT_ID}_${CLUSTER_DEV_LOC}_${CLUSTER_DEV_NAME} \
 		apply -k apps/backend00/k8s/overlays/dev
 	@kubectl --context gke_${PROJECT_ID}_${CLUSTER_PROD_LOC}_${CLUSTER_PROD_NAME} \
-		apply -k apps/backend00/k8s/overlays/prod
+		apply -k apps/backend00/k8s/overlays/canary

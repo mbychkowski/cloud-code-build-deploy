@@ -57,7 +57,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'waitForDeployDev'
-  timeout: 120s
+  timeout: 300s
   args:
   - --namespace=${_DEPLOY_PIPELINE}-dev
   - rollout
@@ -99,7 +99,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'waitForDeployCanary'
-  timeout: 120s
+  timeout: 300s
   args:
   - --namespace=${_DEPLOY_PIPELINE}-prod
   - rollout
