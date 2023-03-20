@@ -34,7 +34,7 @@ func main() {
 	}
 
 	r.GET("/", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{"body": "hello, world. [ 👾 ]"})
+    c.JSON(http.StatusOK, gin.H{"body": "hello, world. [ - 👾 - ]"})
   })
 
 	r.GET("/albums", album.GetAlbums)

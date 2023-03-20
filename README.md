@@ -198,7 +198,13 @@ git push google v0.0.x
 
 ## 06 - The pipeline
 
->Note this may fail the first time as we need to have an initial state
+**Note this may fail the first time as we need to have an initial state**
+To avoid this we can setup a version 1 of our app in our `dev`and `prod`
+clusters.
+
+```
+make kustomize-app-init
+```
 
 Everything should be in place and we can watch the pipeline kick off.
 
