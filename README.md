@@ -30,6 +30,13 @@ Source.
 1. 2 gke zonal clusters. One designated as `dev` and a second as `prod`. For `prod` to
 have canary releases, install ASM on `prod` cluster. Instructions [here](https://cloud.google.com/service-mesh/docs/managed/provision-managed-anthos-service-mesh) for installing ASM with Fleet API.
 
+You can use the following command once your `prod` cluster is running to install
+ASM with the Fleet API.
+
+```
+make asm-enable
+```
+
 ## 00 - Initialize
 
 For demonstration purposes it is recommended to set this code up in a
