@@ -147,7 +147,7 @@ During this setup click on the following options
 [ local profile ] > [ "dirty" Artifact Registry repo ]
 ```
 
-![cloud code run on kubernetes](./docs/assets/cloud_code_start.png).
+![cloud code run on kubernetes](./docs/assets/cloud_code_start.png)
 
 With Cloud Code enabled and connected to your `dev` cluster you can make changes
 in our `backend00` app and witness a continuous dev build cycle. Go ahead and
@@ -202,7 +202,7 @@ git push google v0.0.x
 
 ## 06 - The pipeline
 
-**Note:** this may fail the first time because we need to have an initial state
+**Note:** this may fail the first time because we need to have an initial state.
 To avoid this we can setup a "version 1" of our app in our `dev`and `prod`
 clusters.
 
@@ -229,7 +229,7 @@ new release.
 
 ```
 while true; do
-  curl -w "\n" 35.225.223.9/;
+  curl -w "\n" <EXTERNAL-IP>/;
 done
 ```
 
