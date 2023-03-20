@@ -121,8 +121,9 @@ make build-trigger-tag
 ```
 
 To create a trigger based on a pub/sub topic for Artifact Registry. This will
-trigger pipeline based off a new image tag from Artifact Registry. **Note
-`cloudbuild.yaml` not yet configured to run for this trigger**
+trigger pipeline based off a new image tag from Artifact Registry. This trigger
+runs off the `cloudbuild-tag.yaml` config, since we no longer have a image build
+step.
 
 ```
 make build-trigger-pubsub
