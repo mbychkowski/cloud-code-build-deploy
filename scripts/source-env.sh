@@ -21,12 +21,14 @@ PROJECT_ID=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
 
 PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="value(projectNumber)")
 
+CLUSTER_DEV_URI=$(gcloud container clusters list --uri | grep "${CLUSTER_DEV_NAME}" 2>/dev/null)
+CLUSTER_PROD_URI=$(gcloud container clusters list --uri | grep "${CLUSTER_PROD_NAME}" 2>/dev/null)
+
 # Replace environment variables with specific values for necessary templates
 while read line; do
   ENV_VAR=$(sed -e 's/export \(.*\)=.*/\1/' <<< ${line})
-
   if [[ $line != "" ]] && [[ $line != "#"* ]]; then
-    echo "$ENV_VAR | ${!ENV_VAR}"
+  #   echo "$ENV_VAR | ${!ENV_VAR}"
     find ./ -type f \( -iname \*.env -o -iname \*.yaml \) \
       ! -path '*/templates/*' ! -path '*/scripts/*' \
       -exec sed -i 's\${'"$ENV_VAR"'}\'"${!ENV_VAR}"'\g' {} +
