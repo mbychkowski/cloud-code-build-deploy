@@ -21,10 +21,6 @@ Source.
 >responsible for all of their own security, scaling, and cost control as part of
 >this deployment.
 
-**WIP**
-* Simple install of ASM with `make asm-install` for an all in one command line
-* Build trigger on pub/sub with push to Artifact Registry
-
 ## Prerequisites
 
 1. 2 gke zonal clusters. One designated as `dev` and a second as `prod`. For `prod` to
