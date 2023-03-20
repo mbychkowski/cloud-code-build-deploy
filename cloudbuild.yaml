@@ -67,11 +67,6 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_DEV_LOC}'
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_DEV_NAME}'
-  max_retries: 5
-  backoff:
-    initial_delay: 2
-    max_delay: 32
-    multiplier: 2
 
 - id: 'testsForDev'
   name: 'alpine'
@@ -114,11 +109,6 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_PROD_LOC}'
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_PROD_NAME}'
-  max_retries: 5
-  backoff:
-    initial_delay: 2
-    max_delay: 32
-    multiplier: 2
 
 - id: 'cloudDeployProd'
   name: gcr.io/cloud-builders/gcloud
