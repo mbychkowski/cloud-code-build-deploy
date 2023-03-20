@@ -136,10 +136,19 @@ Click on "Run on Kubernetes" and walk through the setup to connect your `dev`
 cluster and the "dirty" Artifact Registry. If using VSCode, this will create a
 `launch.json` file with the configs.
 
+During this setup click on the following options
+
+```
+[ gke dev cluster context ] > [ skaffold.yaml (at root) ] > [ all dependencies ] >
+[ local profile ] > [ "dirty" Artifact Registry repo ]
+```
+
 ![cloud code run on kubernetes](./docs/assets/cloud_code_start.png).
 
 With Cloud Code enabled and connected to your `dev` cluster you can make changes
-in our `backend00` app and witness a continuous dev build cycle.
+in our `backend00` app and witness a continuous dev build cycle. Go ahead and
+make a small change in `apps/backend00/main.go` and witness the magic of
+Skaffold rollout those changes to your dev cluster.
 
 ## 04 - Cloud Deploy
 
@@ -189,15 +198,19 @@ git push google v0.0.x
 
 ## 06 - The pipeline
 
->Note this may fail the first time as we need to have an initial state
+**Note:** this may fail the first time because we need to have an initial state
+To avoid this we can setup a "version 1" of our app in our `dev`and `prod`
+clusters.
+
+```
+make kustomize-app-init
+```
 
 Everything should be in place and we can watch the pipeline kick off.
 
-The build process will be visible in [Cloud Build](https://console.cloud.google.com/cloud-build/triggers),
-make sure you are on the correct region here. After the build pipeline is
-finished, the [Cloud Deploy](https://console.cloud.google.com/deploy/delivery-pipelines/)
-pipeline will kick off starting with deploying to our `dev` cluster and than the
-canary and prod both in the `prod` cluster.
+The build process will be visible in [Cloud Build](https://console.cloud.google.com/cloud-build/triggers), make sure you are on the correct region here. After the
+build pipeline is finished, the [Cloud Deploy](https://console.cloud.google.com/deploy/delivery-pipelines/) pipeline will kick off starting with deploying to our `dev`
+cluster and than the canary and prod both in the `prod` cluster.
 
 To witness the canary process in action we will need to first get the provisioned
 external Google Cloud LoadBalacner from our Ingress Gateway:
@@ -212,7 +225,7 @@ new release.
 
 ```
 while true; do
-  curl -w "\n" <EXTERNAL-IP>/;
+  curl -w "\n" 35.225.223.9/;
 done
 ```
 

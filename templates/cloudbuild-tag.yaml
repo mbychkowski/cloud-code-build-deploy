@@ -24,34 +24,24 @@ steps:
       echo "$PROJECT_ID"
       echo "$REPO_NAME"
       echo "$BRANCH_NAME"
-      echo "$SHORT_SHA"
-      echo "$TAG_NAME"
+      echo "$_IMAGE_TAG"
+      echo "$_ACTION"
       echo "$LOCATION"
+      echo "$SHORT_SHA"
       echo "***********************"
-
-- name: gcr.io/k8s-skaffold/skaffold:v2.0.5
-  id: skaffoldBuild
-  args:
-    - 'skaffold'
-    - 'build'
-    - '--file-output=/workspace/artifacts.json'
-    - '--profile=dev'
-    - '--module=$_DEPLOY_PIPELINE'
 
 - id: 'cloudDeployDev'
   name: gcr.io/cloud-builders/gcloud
   entrypoint: bash
   dir: /workspace
-  waitFor:
-  - skaffoldBuild
   args:
   - '-c'
   - |
       gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
-        --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
+        --images=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME/be00=$_IMAGE_TAG \
         --region="$LOCATION" &&
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
