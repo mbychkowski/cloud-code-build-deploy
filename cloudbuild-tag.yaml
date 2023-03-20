@@ -34,7 +34,7 @@ steps:
   entrypoint: bash
   dir: /workspace
   env:
-  - '_DATETIME=$(date +%F_%T)'
+  - '_DATETIME=$(date +%F-%H-%M-%S)'
   args:
   - '-c'
   - |
