@@ -129,5 +129,5 @@ options:
   # This allows for missing ENV variables.
   substitution_option: 'ALLOW_LOOSE'
 substitutions:
-  _ARTIFACT_REPO_NAME: ${ARTIFACT_REPO_NAME}
+  _ARTIFACT_REPO_NAME: cicd
   _RELEASE_FILE_PATH: /workspace/.cb.releasename

@@ -20,6 +20,7 @@ metadata:
   name: backend00
 spec:
   replicas: 1
+  progressDeadlineSeconds: 300
   selector:
     matchLabels:
       app: backend00
