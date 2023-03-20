@@ -25,7 +25,7 @@ steps:
       echo "$REPO_NAME"
       echo "$BRANCH_NAME"
       echo "$SHORT_SHA"
-      echo "ç"
+      echo "$TAG_NAME"
       echo "$LOCATION"
       echo "***********************"
 
