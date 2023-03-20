@@ -136,10 +136,19 @@ Click on "Run on Kubernetes" and walk through the setup to connect your `dev`
 cluster and the "dirty" Artifact Registry. If using VSCode, this will create a
 `launch.json` file with the configs.
 
+During this setup click on the following options
+
+```
+[ gke dev cluster context ] > [ skaffold.yaml (at root) ] > [ all dependencies ] >
+[ local profile ] > [ "dirty" Artifact Registry repo ]
+```
+
 ![cloud code run on kubernetes](./docs/assets/cloud_code_start.png).
 
 With Cloud Code enabled and connected to your `dev` cluster you can make changes
-in our `backend00` app and witness a continuous dev build cycle.
+in our `backend00` app and witness a continuous dev build cycle. Go ahead and
+make a small change in `apps/backend00/main.go` and witness the magic of
+Skaffold rollout those changes to your dev cluster.
 
 ## 04 - Cloud Deploy
 
