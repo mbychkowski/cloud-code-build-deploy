@@ -202,11 +202,9 @@ git push google v0.0.x
 
 Everything should be in place and we can watch the pipeline kick off.
 
-The build process will be visible in [Cloud Build](https://console.cloud.google.com/cloud-build/triggers),
-make sure you are on the correct region here. After the build pipeline is
-finished, the [Cloud Deploy](https://console.cloud.google.com/deploy/delivery-pipelines/)
-pipeline will kick off starting with deploying to our `dev` cluster and than the
-canary and prod both in the `prod` cluster.
+The build process will be visible in [Cloud Build](https://console.cloud.google.com/cloud-build/triggers), make sure you are on the correct region here. After the
+build pipeline is finished, the [Cloud Deploy](https://console.cloud.google.com/deploy/delivery-pipelines/) pipeline will kick off starting with deploying to our `dev`
+cluster and than the canary and prod both in the `prod` cluster.
 
 To witness the canary process in action we will need to first get the provisioned
 external Google Cloud LoadBalacner from our Ingress Gateway:
