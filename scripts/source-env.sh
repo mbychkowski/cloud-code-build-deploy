@@ -10,6 +10,7 @@ fi
 
 cp ./templates/auto.env .env
 cp ./templates/cloudbuild.yaml cloudbuild.yaml
+cp ./templates/cloudbuild.yaml cloudbuild-tag.yaml
 cp ./templates/clouddeploy.yaml clouddeploy.yaml
 
 cp ./apps/backend00/templates/skaffold.yaml apps/backend00/skaffold.yaml

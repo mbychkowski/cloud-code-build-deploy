@@ -89,7 +89,7 @@ build-trigger-pubsub:
 		--repo-type="CLOUD_SOURCE_REPOSITORIES" \
 		--repo=${CSR_REPO_NAME} \
 		--branch=main \
-		--build-config=cloudbuild.yaml \
+		--build-config=cloudbuild-tag.yaml \
 		--subscription-filter='_ACTION.matches("INSERT")' \
 		--substitutions=_DEPLOY_PIPELINE=backend00,_CLUSTER_DEV_LOC=${CLUSTER_DEV_LOC},_CLUSTER_DEV_NAME=${CLUSTER_DEV_NAME},_CLUSTER_PROD_LOC=${CLUSTER_PROD_LOC},_CLUSTER_PROD_NAME=${CLUSTER_PROD_NAME},_IMAGE_TAG='$$(body.message.data.tag)',_ACTION='$$(body.message.data.action)'
 
