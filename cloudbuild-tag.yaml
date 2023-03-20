@@ -27,24 +27,23 @@ steps:
       echo "$_IMAGE_TAG"
       echo "$_ACTION"
       echo "$LOCATION"
+      echo "$SHORT_SHA"
       echo "***********************"
 
 - id: 'cloudDeployDev'
   name: gcr.io/cloud-builders/gcloud
   entrypoint: bash
   dir: /workspace
-  env:
-  - '_DATETIME=$(date +%F-%H-%M-%S)'
   args:
   - '-c'
   - |
-      gcloud deploy releases create "$_DEPLOY_PIPELINE-$_DATETIME"  \
+      gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
         --skaffold-version="2.0" \
         --images=be00=$_IMAGE_TAG \
         --region="$LOCATION" &&
-        echo "$_DEPLOY_PIPELINE-$_DATETIME" > "$_RELEASE_FILE_PATH"
+        echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
 
 - name: 'gcr.io/cloud-builders/kubectl'
   id: 'waitForDeployDev'
@@ -83,7 +82,7 @@ steps:
   - '-c'
   - |
       gcloud deploy releases promote --to-target "canary" \
-        --release=$_DEPLOY_PIPELINE-$_IMAGE_TAG \
+        --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \
         --quiet
@@ -111,7 +110,7 @@ steps:
   - '-c'
   - |
       gcloud deploy releases promote --to-target "prod" \
-        --release=$_DEPLOY_PIPELINE-$_IMAGE_TAG \
+        --release=$_DEPLOY_PIPELINE-$SHORT_SHA \
         --region=$LOCATION \
         --delivery-pipeline=$_DEPLOY_PIPELINE \
         --quiet
