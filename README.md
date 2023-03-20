@@ -225,7 +225,7 @@ new release.
 
 ```
 while true; do
-  curl -w "\n" 35.225.223.9/;
+  curl -w "\n" <EXTERNAL-IP>/;
 done
 ```
 
