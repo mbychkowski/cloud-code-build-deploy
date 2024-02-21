@@ -34,7 +34,7 @@ profiles:
             format: "2006-01-02_15-04-05.999_MST"
             timezone: "Local"
     artifacts:
-    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+    - image: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd-dirty/be00
       context: .
       kaniko:
         dockerfile: Dockerfile
@@ -51,7 +51,7 @@ profiles:
     tagPolicy:
       gitCommit: {}
     artifacts:
-    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+    - image: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd/be00
       context: .
       docker:
         dockerfile: Dockerfile
@@ -66,7 +66,7 @@ profiles:
     tagPolicy:
       gitCommit: {}
     artifacts:
-    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+    - image: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd/be00
       context: .
       docker:
         dockerfile: Dockerfile
@@ -81,7 +81,7 @@ profiles:
     tagPolicy:
       gitCommit: {}
     artifacts:
-    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+    - image: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd/be00
       context: .
       docker:
         dockerfile: Dockerfile

@@ -190,7 +190,7 @@ To kick off the first pipeline make the initial commit to main branch after
 `git add -A` and `git commit -m "first commit to csr"`:
 
 ```
-git push -u google main
+"git push -u google main"
 ```
 
 You can also kick this off with tag:

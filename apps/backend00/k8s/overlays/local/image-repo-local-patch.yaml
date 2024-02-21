@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- value: us-central1-docker.pkg.dev/prj-zeld-deku/cicd-dirty/be00
+- value: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd-dirty/be00
   path: /spec/template/spec/containers/0/image
   op: replace

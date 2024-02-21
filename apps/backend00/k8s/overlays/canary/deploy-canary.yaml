@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: be00
-        image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+        image: us-central1-docker.pkg.dev/prj-kokiri-dev/cicd/be00
         readinessProbe:
           httpGet:
             path: /healthz
