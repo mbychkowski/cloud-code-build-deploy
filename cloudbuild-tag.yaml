@@ -29,7 +29,7 @@ steps:
       echo "$LOCATION"
       echo "***********************"
 
-- name: gcr.io/k8s-skaffold/skaffold:v2.0.5
+- name: gcr.io/k8s-skaffold/skaffold:v2.11.1
   id: skaffoldBuild
   args:
     - 'skaffold'

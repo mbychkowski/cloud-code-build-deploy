@@ -45,7 +45,11 @@ metadata:
   name: canary
 description: 02 canary to prod cluster (test release 90/10 to new release).
 gke:
+<<<<<<< HEAD
   cluster: projects/prj-kokiri-dev/locations//clusters/
+=======
+  cluster: projects/prj-kokiri-dev/locations/us-central1-c/clusters/gke-prod-asm
+>>>>>>> eb25ddc (first commit to csr)
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
@@ -54,4 +58,8 @@ metadata:
 description: 03 prod cluster (external, as stable as it can be).
 requireApproval: true
 gke:
+<<<<<<< HEAD
   cluster: projects/prj-kokiri-dev/locations//clusters/
+=======
+  cluster: projects/prj-kokiri-dev/locations/us-central1-c/clusters/gke-prod-asm
+>>>>>>> eb25ddc (first commit to csr)
