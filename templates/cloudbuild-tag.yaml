@@ -40,7 +40,7 @@ steps:
       gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
-        --skaffold-version="2.0" \
+        --skaffold-version="2.11" \
         --images=$LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REPO_NAME/be00=$_IMAGE_TAG \
         --region="$LOCATION" &&
         echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
