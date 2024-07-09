@@ -37,7 +37,7 @@ metadata:
   name: dev
 description: 01 Development cluster (internal, autopush, integration tests)
 gke:
-  cluster: projects/prj-kokiri-dev/locations/us-central1-c/clusters/gke-dev
+  cluster: projects/prj-kokiri-dev/locations/us-central1/clusters/gke-dev
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
@@ -45,7 +45,7 @@ metadata:
   name: canary
 description: 02 canary to prod cluster (test release 90/10 to new release).
 gke:
-  cluster: projects/prj-kokiri-dev/locations/us-central1-c/clusters/gke-prod
+  cluster: projects/prj-kokiri-dev/locations/us-central1/clusters/gke-dev
 ---
 apiVersion: deploy.cloud.google.com/v1
 kind: Target
@@ -54,4 +54,4 @@ metadata:
 description: 03 prod cluster (external, as stable as it can be).
 requireApproval: true
 gke:
-  cluster: projects/prj-kokiri-dev/locations/us-central1-c/clusters/gke-prod
+  cluster: projects/prj-kokiri-dev/locations/us-central1/clusters/gke-prod
